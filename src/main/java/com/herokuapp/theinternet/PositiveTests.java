@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class PositiveTests {
@@ -47,12 +48,21 @@ public class PositiveTests {
 
 
         //new URL;
+        String expectedUrl="http://the-internet.herokuapp.com/secure";
+        String currentUrl=webDriver.getCurrentUrl();
+
+        Assert.assertEquals(currentUrl,expectedUrl,"Url is different than expected!! something went wrong!");
         //existance of a logout button.
 
         WebElement logOutButton = webDriver.findElement(By.ByXPath.xpath("//a[@class='button secondary radius']"));
+        Assert.assertTrue(logOutButton.isDisplayed(),"Something went wrong !");
+        Assert.assertTrue(logOutButton.getText().equals("Logout"),"Button not displayed! Failure");
         //successful login message.
 
         WebElement successMessage = webDriver.findElement(By.cssSelector("#flash"));
+        String expectedSuccessMessage="You logged into a secure area!";
+        String currentText=successMessage.getText().substring(0,successMessage.getText().length()-2);
+        Assert.assertEquals(currentText,expectedSuccessMessage,"targeted text is not the same!");
 
         System.out.println("test finished!!! goodbye!");
         webDriver.quit();
